@@ -1,0 +1,30 @@
+name: Update Comics Manifest
+
+# Runs whenever a file in photos/ is added, changed, or deleted.
+# Also runnable manually from the GitHub Actions tab.
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "photos/**"
+  workflow_dispatch:
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate manifest.json
+        run: python3 generate_manifest.py
+
+      - name: Commit and push manifest
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          git diff --staged --quiet || git commit -m "chore: update comics manifest [skip ci]"
+          git push
