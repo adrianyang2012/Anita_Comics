@@ -36,7 +36,7 @@ async function loadComics() {
   const entries = [];
 
   files.forEach(filename => {
-    const match = filename.match(/^([A-Za-z]+)(?:\([^)]*\))?_(\d+)_(\d{4})\.jpe?g$/i);
+    const match = filename.match(/^([A-Za-z]+)_(\d+)_(\d{4})\.jpe?g$/i);
 
     if (!match) return;
 
